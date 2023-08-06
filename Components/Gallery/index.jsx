@@ -1,5 +1,8 @@
+"use client";
+
 import styles from "./styles.module.css";
 import Project from "./Project";
+import { useState } from "react";
 
 const Projects = [
     {
@@ -12,30 +15,33 @@ const Projects = [
         name: "Project 2",
         desc: "something about 2",
         image: "two.jpeg",
-        color: "#dadada",
+        color: "#d0d0d0",
     },
     {
         name: "Project 3",
         desc: "something about 3",
         image: "three.jpg",
-        color: "#dadada",
+        color: "#eeeeee",
     },
     {
         name: "Project 4",
         desc: "something about 4",
         image: "four.webp",
-        color: "#dadada",
+        color: "#ababab",
     },
 ];
 
 const index = () => {
+    // const [modal, setModal] = useState({ active: false, index: 0 });
+
     return (
         <div className={styles.gallery}>
             <h1>Projects</h1>
             <div className={styles.projects}>
                 {Projects.map((project, index) => {
-                    console.log(project);
-                    return <Project key={index} project={project} />;
+                    return (
+                        <Project key={index} project={project} index={index} />
+                    );
                 })}
             </div>
         </div>
