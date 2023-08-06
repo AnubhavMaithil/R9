@@ -36,9 +36,9 @@ const index = () => {
         } else if (xPercent > 0) {
             xPercent = -100;
         }
-
         gsap.set(firstText.current, { xPercent });
         gsap.set(secondText.current, { xPercent });
+
         xPercent += direction * 0.1;
         requestAnimationFrame(animate);
     };

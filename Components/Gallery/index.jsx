@@ -4,6 +4,8 @@ import styles from "./styles.module.css";
 import Project from "./Project";
 import { useState } from "react";
 
+import Modal from "./Modal";
+
 const Projects = [
     {
         name: "Project 1",
@@ -32,18 +34,23 @@ const Projects = [
 ];
 
 const index = () => {
-    // const [modal, setModal] = useState({ active: false, index: 0 });
-
+    const [modal, setModal] = useState({ active: false, index: 0 });
     return (
         <div className={styles.gallery}>
             <h1>Projects</h1>
             <div className={styles.projects}>
                 {Projects.map((project, index) => {
                     return (
-                        <Project key={index} project={project} index={index} />
+                        <Project
+                            key={index}
+                            project={project}
+                            index={index}
+                            setModal={setModal}
+                        />
                     );
                 })}
             </div>
+            <Modal modal={modal} projects={Projects} />
         </div>
     );
 };
