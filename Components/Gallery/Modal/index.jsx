@@ -1,11 +1,32 @@
 import styles from "./style.module.css";
 import Image from "next/image";
+
+import { motion } from "framer-motion";
+import { gsap } from "gsap";
+
+const animateVarients = {
+    initial: { scale: 0 },
+    open: {
+        scale: 1,
+        transition: { duration: 0.45, ease: [0.23, 1, 0.32, 1] },
+    },
+    exit: {
+        scale: 0,
+        transition: { duration: 0.35, ease: [0.23, 1, 0.32, 1] },
+    },
+};
+
 const index = ({ modal, projects }) => {
     const { active, index } = modal;
 
     return (
         <>
-            <div className={styles.modalContainer}>
+            <motion.div
+                variants={animateVarients}
+                initial="initial"
+                animate={active ? "open" : "exit"}
+                className={styles.modalContainer}
+            >
                 <div
                     className={styles.modalSlider}
                     style={{ top: index * -100 + "%" }}
@@ -13,7 +34,11 @@ const index = ({ modal, projects }) => {
                     {projects.map((project, index) => {
                         const { image, color } = project;
                         return (
-                            <div key={index} className={styles.modal}>
+                            <div
+                                key={index}
+                                className={styles.modal}
+                                style={{ backgroundColor: `${color}` }}
+                            >
                                 <Image
                                     src={`/${image}`}
                                     width={300}
@@ -24,8 +49,15 @@ const index = ({ modal, projects }) => {
                         );
                     })}
                 </div>
-            </div>
-            <div className={styles.cursor}>View</div>
+            </motion.div>
+            <motion.div
+                variants={animateVarients}
+                initial="initial"
+                animate={active ? "open" : "exit"}
+                className={styles.cursor}
+            >
+                View
+            </motion.div>
         </>
     );
 };
