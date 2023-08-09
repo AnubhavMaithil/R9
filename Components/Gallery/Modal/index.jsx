@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
+import { useEffect, useRef } from "react";
 
 const animateVarients = {
     initial: { scale: 0 },
@@ -19,6 +20,39 @@ const animateVarients = {
 const index = ({ modal, projects }) => {
     const { active, index } = modal;
 
+    const cursor = useRef(null);
+    const modalContainer = useRef(null);
+
+    useEffect(() => {
+        const cursorElement = cursor.current;
+        const modalElement = modalContainer.current;
+
+        let cursorX = gsap.quickTo(cursorElement, "x", {
+            duration: 0.4,
+            ease: "power3",
+        });
+        let cursorY = gsap.quickTo(cursorElement, "y", {
+            duration: 0.4,
+            ease: "power3",
+        });
+        let ModalX = gsap.quickTo(modalElement, "x", {
+            duration: 0.8,
+            ease: "power3",
+        });
+        let ModalY = gsap.quickTo(modalElement, "y", {
+            duration: 0.8,
+            ease: "power3",
+        });
+
+        window.addEventListener("mousemove", (e) => {
+            let x = e.pageX;
+            let y = e.pageY;
+
+            gsap.set(cursorElement, { x: x, y: y });
+            gsap.set(modalElement, { x: x, y: y });
+        });
+    });
+
     return (
         <>
             <motion.div
@@ -26,6 +60,7 @@ const index = ({ modal, projects }) => {
                 initial="initial"
                 animate={active ? "open" : "exit"}
                 className={styles.modalContainer}
+                ref={modalContainer}
             >
                 <div
                     className={styles.modalSlider}
@@ -55,9 +90,12 @@ const index = ({ modal, projects }) => {
                 initial="initial"
                 animate={active ? "open" : "exit"}
                 className={styles.cursor}
+                ref={cursor}
             >
                 View
             </motion.div>
+
+            <button className={styles.button}>More Work</button>
         </>
     );
 };
