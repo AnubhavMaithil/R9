@@ -6,6 +6,8 @@ import { useState } from "react";
 
 import Modal from "./Modal";
 
+import Button from "../Button";
+
 const Projects = [
     {
         name: "Project 1",
@@ -51,6 +53,9 @@ const index = () => {
                 })}
             </div>
             <Modal modal={modal} projects={Projects} />
+            <Button>
+                <p>More Work</p>
+            </Button>
         </div>
     );
 };

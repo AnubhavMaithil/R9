@@ -6,13 +6,13 @@ import { gsap } from "gsap";
 import { useEffect, useRef } from "react";
 
 const animateVarients = {
-    initial: { scale: 0 },
+    initial: { transform: "translate(-50%, -50%) scale(0)" },
     open: {
-        scale: 1,
+        transform: "translate(-50%, -50%) scale(1)",
         transition: { duration: 0.45, ease: [0.23, 1, 0.32, 1] },
     },
     exit: {
-        scale: 0,
+        transform: "translate(-50%, -50%) scale(0)",
         transition: { duration: 0.35, ease: [0.23, 1, 0.32, 1] },
     },
 };
@@ -20,38 +20,36 @@ const animateVarients = {
 const index = ({ modal, projects }) => {
     const { active, index } = modal;
 
-    const cursor = useRef(null);
     const modalContainer = useRef(null);
+    const cursor = useRef(null);
 
     useEffect(() => {
-        const cursorElement = cursor.current;
-        const modalElement = modalContainer.current;
+        let xMoveContainer = gsap.quickTo(modalContainer.current, "left", {
+            duration: 0.8,
+            ease: "power3",
+        });
+        let yMoveContainer = gsap.quickTo(modalContainer.current, "top", {
+            duration: 0.8,
+            ease: "power3",
+        });
 
-        let cursorX = gsap.quickTo(cursorElement, "x", {
-            duration: 0.4,
+        let xMoveCursor = gsap.quickTo(cursor.current, "left", {
+            duration: 0.45,
             ease: "power3",
         });
-        let cursorY = gsap.quickTo(cursorElement, "y", {
-            duration: 0.4,
-            ease: "power3",
-        });
-        let ModalX = gsap.quickTo(modalElement, "x", {
-            duration: 0.8,
-            ease: "power3",
-        });
-        let ModalY = gsap.quickTo(modalElement, "y", {
-            duration: 0.8,
+        let yMoveCursor = gsap.quickTo(cursor.current, "top", {
+            duration: 0.45,
             ease: "power3",
         });
 
         window.addEventListener("mousemove", (e) => {
-            let x = e.pageX;
-            let y = e.pageY;
-
-            gsap.set(cursorElement, { x: x, y: y });
-            gsap.set(modalElement, { x: x, y: y });
+            const { pageX, pageY } = e;
+            xMoveContainer(pageX);
+            yMoveContainer(pageY);
+            xMoveCursor(pageX);
+            yMoveCursor(pageY);
         });
-    });
+    }, []);
 
     return (
         <>
@@ -94,8 +92,6 @@ const index = ({ modal, projects }) => {
             >
                 View
             </motion.div>
-
-            <button className={styles.button}>More Work</button>
         </>
     );
 };
