@@ -17,6 +17,7 @@
     flex-direction: column;
     gap: 2rem;
     color: white;
+    font-size: 1.2rem;
 }
 
 .sliderContainer {
@@ -32,7 +33,7 @@
 }
 
 .slider p {
-    font-size: 150px;
+    font-size: 250px;
     position: relative;
     margin: 0px;
     color: white;

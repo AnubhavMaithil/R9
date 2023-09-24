@@ -50,8 +50,8 @@ const index = () => {
             <div className={styles.content}>
                 <Image
                     src={"/arrow.svg"}
-                    width={10}
-                    height={10}
+                    width={20}
+                    height={20}
                     alt="arrow"
                     data-scroll
                     data-scroll-speed="0.1"

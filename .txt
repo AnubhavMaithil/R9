@@ -1,38 +1,58 @@
-const slider1 = [
-    {
-        color: "#e3e5e7",
-        src: "c2.jpg",
-    },
-    {
-        color: "#d6d7dc",
-        src: "decimal.jpg",
-    },
-    {
-        color: "#e3e3e3",
-        src: "funny.jpg",
-    },
-    {
-        color: "#21242b",
-        src: "google.jpg",
-    },
-];
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
 
-const slider2 = [
-    {
-        color: "#d4e3ec",
-        src: "maven.jpg",
-    },
-    {
-        color: "#e5e0e1",
-        src: "panda.jpg",
-    },
-    {
-        color: "#d7d4cf",
-        src: "powell.jpg",
-    },
-    {
-        color: "#e1dad6",
-        src: "wix.jpg",
-    },
-];
+export default function index({ children }) {
+    const magnetic = useRef(null);
 
+    useEffect(() => {
+        console.log(children);
+        const xTo = gsap.quickTo(magnetic.current, "x", {
+            duration: 1,
+            ease: "elastic.out(1, 0.3)",
+        });
+        const yTo = gsap.quickTo(magnetic.current, "y", {
+            duration: 1,
+            ease: "elastic.out(1, 0.3)",
+        });
+
+        magnetic.current.addEventListener("mousemove", (e) => {
+            const { clientX, clientY } = e;
+            const { height, width, left, top } =
+                magnetic.current.getBoundingClientRect();
+            const x = clientX - (left + width / 2);
+            const y = clientY - (top + height / 2);
+            xTo(x * 0.35);
+            yTo(y * 0.35);
+        });
+        magnetic.current.addEventListener("mouseleave", (e) => {
+            xTo(0);
+            yTo(0);
+        });
+    }, []);
+
+    return React.cloneElement(children, { ref: magnetic });
+}
+
+
+export const menuSlide = {
+    initial: { x: "calc(100% + 100px)" },
+    enter: { x: "0", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } },
+    exit: { x: "calc(100% + 100px)", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }
+}
+
+export const slide = {
+    initial: { x: 80 },
+    enter: i => ({ x: 0, transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.05 * i } }),
+    exit: i => ({ x: 80, transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.05 * i } })
+}
+
+export const scale = {
+    open: { scale: 1, transition: { duration: 0.3 } },
+    closed: { scale: 0, transition: { duration: 0.4 } }
+}
+
+export const border = {
+    initial: { borderTopLeftRadius: '70%', borderBottomLeftRadius: "70%" },
+    enter: { borderTopLeftRadius: '0%', borderBottomLeftRadius: "0%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } },
+    exit: { borderTopLeftRadius: '70%', borderBottomLeftRadius: "70%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }
+}

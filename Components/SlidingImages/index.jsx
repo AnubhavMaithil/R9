@@ -43,26 +43,20 @@ const slider2 = [
 ];
 
 const index = () => {
-    const slider1Ref = useRef(null);
-    const slider2Ref = useRef(null);
-
     const container = useRef(null);
 
     const { scrollYProgress } = useScroll({
         trigger: container,
-        start: "top bottom",
+        offset: ["start end", "end start"],
     });
 
     const x1 = useTransform(scrollYProgress, [0, 1], [0, 150]);
     const x2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
+    const height = useTransform(scrollYProgress, [0, 1], [50, 0]);
 
     return (
         <div className={style.slidingimages} ref={container}>
-            <motion.div
-                className={style.slider}
-                ref={slider1Ref}
-                style={{ x: x1 }}
-            >
+            <motion.div className={style.slider} style={{ x: x1 }}>
                 {slider1.map((photo, index) => {
                     return (
                         <div
@@ -75,11 +69,7 @@ const index = () => {
                     );
                 })}
             </motion.div>
-            <motion.div
-                className={style.slider}
-                ref={slider2Ref}
-                style={{ x: x2 }}
-            >
+            <motion.div className={style.slider} style={{ x: x2 }}>
                 {slider2.map((photo, index) => {
                     return (
                         <div
